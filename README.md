@@ -1,4 +1,12 @@
-# 飞书文档 → 微信公众号草稿箱
+# Feishu to WeChat Publish
+
+<p align="center">
+  <a href="README.md">中文</a> | 
+  <a href="README-en.md">English</a> | 
+  <a href="README-ja.md">日本語</a>
+</p>
+
+---
 
 一键把飞书文档发布到微信公众号草稿箱。给一个链接，自动完成：
 
@@ -49,7 +57,7 @@
 git clone https://github.com/will0101iam/feishu-to-wechat-skills.git
 ```
 
-### 2. 安装 skill（让 opencode 能识别）
+### 2. 安装 skill（让系统能识别）
 
 ```bash
 # 把解压后的目录重命名为 feishu-to-wechat
@@ -156,7 +164,7 @@ bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
 
 ## 六、技术细节
 
-本 skill 包含三个模块：
+本项目包含三个模块：
 
 | 脚本 | 职责 |
 |------|------|
@@ -170,7 +178,7 @@ bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
 
 ```
 feishu-to-wechat/
-├── SKILL.md                    # opencode skill 定义文件
+├── SKILL.md                    # skill 定义文件
 └── scripts/
     ├── feishu-to-wechat.sh     # 一键发布脚本（入口）
     ├── fetch_feishu_doc.py      # 飞书文档读取脚本
