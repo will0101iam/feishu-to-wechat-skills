@@ -9,9 +9,15 @@
 #
 set -euo pipefail
 
-# 自动加载凭证
-if [ -z "${FEISHU_APP_ID:-}" ] && [ -f "$HOME/.baoyu-skills/.env" ]; then
-    set -a && source "$HOME/.baoyu-skills/.env" && set +a
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+if [ -z "${FEISHU_APP_ID:-}" ]; then
+    if [ -f "$PROJECT_ROOT/.env" ]; then
+        set -a && source "$PROJECT_ROOT/.env" && set +a
+    elif [ -f "$HOME/.baoyu-skills/.env" ]; then
+        set -a && source "$HOME/.baoyu-skills/.env" && set +a
+    fi
 fi
 
 # ── 颜色输出 ──

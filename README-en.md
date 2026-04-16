@@ -54,20 +54,14 @@ Feishu Document → Fetch Content → Download Images → Crop Cover → Push to
 ```bash
 # Download and extract zip, or
 git clone https://github.com/will0101iam/feishu-to-wechat-skills.git
+cd feishu-to-wechat-skills
 ```
 
-### 2. Install
+### 2. Configure API Credentials
 
 ```bash
-# Rename to feishu-to-wechat
-mv feishu-to-wechat-skills ~/.config/opencode/skills/feishu-to-wechat
-```
-
-### 3. Configure API Credentials
-
-```bash
-mkdir -p ~/.baoyu-skills/
-cat >> ~/.baoyu-skills/.env << 'EOF'
+# Create .env file in project directory
+cat > .env << 'EOF'
 # Feishu credentials
 FEISHU_APP_ID=your_feishu_app_id
 FEISHU_APP_SECRET=your_feishu_app_secret
@@ -78,7 +72,7 @@ WECHAT_APP_SECRET=your_wechat_app_secret
 EOF
 ```
 
-> **Credentials are NOT uploaded to GitHub**. The `.env` file is on your local machine only.
+> **Note**: The `.env` file contains your credentials. Do NOT commit it to GitHub (project automatically ignores `.env`).
 
 ---
 
@@ -87,14 +81,14 @@ EOF
 ### Simplest (one line)
 
 ```bash
-bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
-  "https://my.feishu.cn/wiki/your_document_link"
+cd feishu-to-wechat-skills
+./feishu-to-wechat.sh "https://my.feishu.cn/wiki/your_document_link"
 ```
 
 ### Full example
 
 ```bash
-bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
+./feishu-to-wechat.sh \
   "https://my.feishu.cn/wiki/your_document_link" \
   --title "Custom Title" \
   --cover cover.jpg \
@@ -128,7 +122,7 @@ bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
 
 ### Q: "Failed to get access_token"
 
-- Check if `FEISHU_APP_ID` and `FEISHU_APP_SECRET` are correct in `~/.baoyu-skills/.env`
+- Check if `FEISHU_APP_ID` and `FEISHU_APP_SECRET` are correct in `.env`
 - Check if Feishu app is **published**
 
 ### Q: Cover image blank/not found
@@ -155,8 +149,7 @@ pip3 install Pillow
 Run this command. If you see "Document fetched successfully", it works:
 
 ```bash
-bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
-  "https://my.feishu.cn/wiki/any_accessible_document"
+./feishu-to-wechat.sh "https://my.feishu.cn/wiki/any_accessible_document"
 ```
 
 ---
@@ -174,12 +167,14 @@ bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
 ## File Structure
 
 ```
-feishu-to-wechat/
-├── SKILL.md                    # skill definition
+feishu-to-wechat-skills/
+├── README.md                    # This file
+├── SKILL.md                     # Legacy file (for compatibility)
+├── .gitignore                   # Git ignore config
 └── scripts/
-    ├── feishu-to-wechat.sh     # main entry script
+    ├── feishu-to-wechat.sh      # Main entry script
     ├── fetch_feishu_doc.py      # Feishu document fetcher
-    ├── image-fit.py             # cover image cropper
+    ├── image-fit.py             # Cover image cropper
     ├── wechat-api.ts            # WeChat API script
     ├── wechat-extend-config.ts  # WeChat account config
     ├── wechat-image-processor.ts # WeChat image processor
@@ -189,4 +184,4 @@ feishu-to-wechat/
     └── node_modules/            # dependencies
 ```
 
-> **Note**: This project does NOT include API credentials. Credentials are stored in `~/.baoyu-skills/.env` (your local file, not uploaded to GitHub).
+> **Note**: This project does NOT include API credentials. Credentials are stored in `.env` file in project root (automatically ignored, not uploaded to GitHub).

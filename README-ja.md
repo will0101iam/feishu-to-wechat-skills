@@ -54,20 +54,14 @@ Feishuドキュメント → コンテンツ取得 → 画像ダウンロード 
 ```bash
 # ZIPをダウンロードして展開、または
 git clone https://github.com/will0101iam/feishu-to-wechat-skills.git
+cd feishu-to-wechat-skills
 ```
 
-### 2. インストール
+### 2. API認証情報設定
 
 ```bash
-# feishu-to-wechatにリネーム
-mv feishu-to-wechat-skills ~/.config/opencode/skills/feishu-to-wechat
-```
-
-### 3. API認証情報設定
-
-```bash
-mkdir -p ~/.baoyu-skills/
-cat >> ~/.baoyu-skills/.env << 'EOF'
+# プロジェクトディレクトリに .env ファイルを作成
+cat > .env << 'EOF'
 # Feishu認証情報
 FEISHU_APP_ID=あなたのFeishuAppID
 FEISHU_APP_SECRET=あなたのFeishuAppSecret
@@ -78,7 +72,7 @@ WECHAT_APP_SECRET=あなたのWeChatAppSecret
 EOF
 ```
 
-> **認証情報はGitHubにアップロードされません**。`.env`ファイルはあなたのローカルにあります。
+> **注意**：`.env`ファイルには認証情報が含まれるため、GitHubにアップロードしないでください（プロジェクトは自動的に`.env`を無視します）。
 
 ---
 
@@ -87,14 +81,14 @@ EOF
 ### 最も簡単な使い方（1行）
 
 ```bash
-bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
-  "https://my.feishu.cn/wiki/あなたのドキュメントリンク"
+cd feishu-to-wechat-skills
+./feishu-to-wechat.sh "https://my.feishu.cn/wiki/あなたのドキュメントリンク"
 ```
 
 ### 完全な例
 
 ```bash
-bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
+./feishu-to-wechat.sh \
   "https://my.feishu.cn/wiki/あなたのドキュメントリンク" \
   --title "カスタムタイトル" \
   --cover cover.jpg \
@@ -128,13 +122,13 @@ bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
 
 ### Q: 「access_token取得失敗」
 
-- `~/.baoyu-skills/.env` の `FEISHU_APP_ID` と `FEISHU_APP_SECRET` が正しいか確認
+- `.env` の `FEISHU_APP_ID` と `FEISHU_APP_SECRET` が正しいか確認
 - Feishuアプリが**公開済み**か確認
 
 ### Q: カバー画像が空/見つからない
 
 - ドキュメントに画像があるか確認
-- `--cover /path/to/your/image.jpg` で手動指定 가능
+- `--cover /path/to/your/image.jpg` で手動指定可能
 
 ### Q: bunコマンドが見つからない
 
@@ -155,8 +149,7 @@ pip3 install Pillow
 以下のコマンドを実行し、「ドキュメント取得完了」と表示されれば正常動作：
 
 ```bash
-bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
-  "https://my.feishu.cn/wiki/アクセス可能なドキュメント"
+./feishu-to-wechat.sh "https://my.feishu.cn/wiki/アクセス可能なドキュメント"
 ```
 
 ---
@@ -174,10 +167,12 @@ bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
 ## ファイル構成
 
 ```
-feishu-to-wechat/
-├── SKILL.md                    # skill定義ファイル
+feishu-to-wechat-skills/
+├── README.md                    # このファイル
+├── SKILL.md                     # 旧ファイル（互換性用）
+├── .gitignore                   # Git無視設定
 └── scripts/
-    ├── feishu-to-wechat.sh     # メインエントリスクリプト
+    ├── feishu-to-wechat.sh      # メインエントリスクリプト
     ├── fetch_feishu_doc.py      # Feishuドキュメント取得
     ├── image-fit.py             # カバー画像切り抜き
     ├── wechat-api.ts            # WeChat APIスクリプト
@@ -189,4 +184,4 @@ feishu-to-wechat/
     └── node_modules/            # 依存パッケージ
 ```
 
-> **注意**: このプロジェクトにはAPI認証情報が含まれていません。認証情報は `~/.baoyu-skills/.env` に保存されます（ローカルファイル、GitHubにはアップロードされません）。
+> **注意**: このプロジェクトにはAPI認証情報が含まれていません。認証情報はプロジェクトルートにある`.env`に保存されます（自動的に無視され、GitHubにはアップロードされません）。

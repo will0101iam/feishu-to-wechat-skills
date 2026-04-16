@@ -49,26 +49,20 @@
 
 ## 二、安装步骤
 
-### 1. 下载 skill
+### 1. 下载项目
 
 ```bash
 # 下载本项目 zip 包，解压到任意目录
-# 或者 git clone
+# 或者
 git clone https://github.com/will0101iam/feishu-to-wechat-skills.git
+cd feishu-to-wechat-skills
 ```
 
-### 2. 安装 skill（让系统能识别）
+### 2. 配置 API 凭证
 
 ```bash
-# 把解压后的目录重命名为 feishu-to-wechat
-mv feishu-to-wechat-skills ~/.config/opencode/skills/feishu-to-wechat
-```
-
-### 3. 配置 API 凭证
-
-```bash
-mkdir -p ~/.baoyu-skills/
-cat >> ~/.baoyu-skills/.env << 'EOF'
+# 在项目目录下创建 .env 文件
+cat > .env << 'EOF'
 # 飞书凭证
 FEISHU_APP_ID=你的飞书AppID
 FEISHU_APP_SECRET=你的飞书AppSecret
@@ -79,7 +73,7 @@ WECHAT_APP_SECRET=你的微信AppSecret
 EOF
 ```
 
-> **凭证不会上传到 GitHub**，`.env` 文件在你的本地，不在本项目的目录里。
+> **注意**：`.env` 文件会包含你的凭证，请勿上传到 GitHub（项目已自动忽略 `.env` 文件）。
 
 ---
 
@@ -88,14 +82,17 @@ EOF
 ### 最简单的用法（一行命令）
 
 ```bash
-bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
-  "https://my.feishu.cn/wiki/你的文档链接"
+# 进入项目目录
+cd feishu-to-wechat-skills
+
+# 运行脚本
+./feishu-to-wechat.sh "https://my.feishu.cn/wiki/你的文档链接"
 ```
 
 ### 完整参数示例
 
 ```bash
-bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
+./feishu-to-wechat.sh \
   "https://my.feishu.cn/wiki/你的文档链接" \
   --title "自定义标题" \
   --cover cover.jpg \
@@ -129,7 +126,7 @@ bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
 
 ### Q: 提示「获取 access_token 失败」
 
-- 检查 `~/.baoyu-skills/.env` 里的 `FEISHU_APP_ID` 和 `FEISHU_APP_SECRET` 是否正确
+- 检查 `.env` 里的 `FEISHU_APP_ID` 和 `FEISHU_APP_SECRET` 是否正确
 - 飞书应用是否已经**发布上线**
 
 ### Q: 封面图是空白/找不到封面图
@@ -156,8 +153,7 @@ pip3 install Pillow
 运行以下命令，如果显示「文档读取完成」就说明正常：
 
 ```bash
-bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
-  "https://my.feishu.cn/wiki/任意一个你能访问的文档链接"
+./feishu-to-wechat.sh "https://my.feishu.cn/wiki/任意一个你能访问的文档链接"
 ```
 
 ---
@@ -177,19 +173,21 @@ bash ~/.config/opencode/skills/feishu-to-wechat/scripts/feishu-to-wechat.sh \
 ## 七、文件结构
 
 ```
-feishu-to-wechat/
-├── SKILL.md                    # skill 定义文件
+feishu-to-wechat-skills/
+├── README.md                    # 本说明文件
+├── SKILL.md                      # 保留文件（兼容旧版）
+├── .gitignore                    # Git 忽略配置
 └── scripts/
-    ├── feishu-to-wechat.sh     # 一键发布脚本（入口）
-    ├── fetch_feishu_doc.py      # 飞书文档读取脚本
-    ├── image-fit.py             # 封面图裁切脚本
+    ├── feishu-to-wechat.sh       # 一键发布脚本（入口）
+    ├── fetch_feishu_doc.py       # 飞书文档读取脚本
+    ├── image-fit.py              # 封面图裁切脚本
     ├── wechat-api.ts            # 微信公众号 API 脚本
     ├── wechat-extend-config.ts  # 微信账号配置
     ├── wechat-image-processor.ts # 微信图片处理
-    ├── md-to-wechat.ts          # Markdown 转微信 HTML
-    ├── package.json             # Node.js 依赖
+    ├── md-to-wechat.ts           # Markdown 转微信 HTML
+    ├── package.json              # Node.js 依赖
     ├── bun.lock
-    └── node_modules/            # 依赖包
+    └── node_modules/             # 依赖包
 ```
 
-> **注意**：本项目不包含 API 凭证。凭证配置在 `~/.baoyu-skills/.env`（这是你的本地文件，不会上传到 GitHub）。
+> **注意**：本项目不包含 API 凭证。凭证配置在项目根目录的 `.env` 文件中（已自动忽略，不会上传到 GitHub）。
